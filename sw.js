@@ -1,12 +1,20 @@
 // Jogo dos Veículos — funciona offline depois da primeira visita
-const CACHE='jogo-veiculos-v1';
-const CORE=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png'];
+// Sobe o número da versão sempre que mudares algum ficheiro do jogo.
+const CACHE='jogo-veiculos-v6';
+const CORE=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png','./icon-maskable-192.png','./icon-maskable-512.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting()));});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));});
 self.addEventListener('fetch',e=>{
   if(e.request.method!=='GET')return;
-  e.respondWith(caches.match(e.request).then(hit=>{
-    const net=fetch(e.request).then(r=>{if(r&&(r.ok||r.type==='opaque')){const cp=r.clone();caches.open(CACHE).then(c=>c.put(e.request,cp));}return r;}).catch(()=>hit);
-    return hit||net;   // cache primeiro; atualiza em segundo plano
+  e.respondWith(caches.match(e.request,{ignoreSearch:true}).then(hit=>{
+    // vai à rede em segundo plano para atualizar a cache; falhas (offline) são ignoradas
+    const net=fetch(e.request).then(r=>{
+      if(r&&(r.ok||r.type==='opaque')){const cp=r.clone();caches.open(CACHE).then(c=>c.put(e.request,cp));}
+      return r;
+    }).catch(()=>null);
+    if(hit){e.waitUntil(net);return hit;}          // cache primeiro
+    return net.then(r=>r||(e.request.mode==='navigate'
+      ?caches.match('./index.html')                // offline e sem cache: abre o jogo na mesma
+      :Response.error()));
   }));
 });
