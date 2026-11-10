@@ -151,68 +151,41 @@ canvas{display:block;width:100%;height:100%;touch-action:none;}
 }
 .vb-free{
   position:absolute;
-  right:clamp(14px,4vw,42px);
-  bottom:clamp(14px,4vw,42px);
-  width:clamp(78px,14vw,120px);
+  right:clamp(10px,3vw,24px);
+  bottom:clamp(10px,3vw,24px);
+  width:clamp(60px,8vw,88px);
   z-index:50;
   pointer-events:none;
-  animation:vbWander 9s ease-in-out infinite;
-  filter:drop-shadow(0 10px 22px rgba(56,189,248,0.55));
+  display:flex;flex-direction:column;align-items:center;gap:2px;
 }
+.vb-free canvas{animation:vbFloat 3s ease-in-out infinite;filter:drop-shadow(0 4px 0 rgba(30,27,75,.35));}
 .vb-free svg,.vb-free canvas{display:block;width:100%;height:auto;}
-.vb-free::before{
-  content:'';
-  position:absolute;
-  left:50%; bottom:-10px;
-  width:78%; height:18px;
-  background:radial-gradient(ellipse at center,rgba(56,189,248,0.6),rgba(56,189,248,0) 70%);
-  transform:translateX(-50%);
-  filter:blur(6px);
-  animation:vbHaloFree 2.4s ease-in-out infinite;
-  pointer-events:none;
-  z-index:-1;
-}
 .vb-free-bubble{
+  --bc:#dcebff;
   position:absolute;
-  bottom:calc(100% + 4px);
-  right:0;
-  width:max-content;
-  background:linear-gradient(135deg,#2a0a4e,#1a0835);
-  border:3px solid #ff6b35;
-  outline:2px solid rgba(255,215,0,0.3);outline-offset:-4px;
-  border-radius:20px;
-  padding:10px 14px 9px;
-  font-family:'Fredoka One',cursive;
-  color:#fff8e0;
-  font-size:clamp(11px,2.6vw,14px);
-  text-align:center;
-  line-height:1.3;
+  bottom:calc(100% + 6px);
+  right:-6px;
+  background:linear-gradient(135deg,var(--bc),#fff);
+  border:3px solid #0f172a;outline:2px solid #1e293b;outline-offset:-4px;
+  border-radius:16px;
+  padding:6px 10px 5px;
+  font-family:"Comic Sans MS","Trebuchet MS",sans-serif;
+  font-weight:bold;color:#0f172a;
+  font-size:clamp(.62rem,1.5vw,.78rem);
+  text-align:center;line-height:1.3;
   white-space:normal;
-  max-width:min(230px,66vw);
-  box-shadow:4px 4px 0 rgba(5,2,15,0.8), 0 0 24px rgba(255,107,53,0.45), inset 0 1px 0 rgba(255,255,255,0.08);
-  animation:vbBubbleFloat 3s ease-in-out infinite;
+  min-width:80px;max-width:180px;width:max-content;
+  box-shadow:3px 3px 0 #0f172a;
   transform-origin:80% 100%;
 }
-.vb-free-bubble.pop{animation:vbBubbleIn 0.45s cubic-bezier(.34,1.56,.64,1) 1, vbBubbleFloat 3s ease-in-out 0.45s infinite;}
-.vb-free-bubble::after{
-  content:'';
-  position:absolute;
-  bottom:-13px; right:22px;
-  width:0;height:0;
-  border-left:9px solid transparent;
-  border-right:9px solid transparent;
-  border-top:14px solid #ff6b35;
+.vb-free-name{
+  font-family:'Fredoka','Nunito',sans-serif;font-weight:700;font-size:clamp(.58rem,1.3vw,.7rem);
+  color:#1e1b4b;background:#fff;border:2px solid #1e1b4b;border-radius:999px;padding:0 8px;
+  box-shadow:0 2px 0 #1e1b4b;text-align:center;line-height:1.3;white-space:nowrap;
 }
-.vb-free-bubble::before{
-  content:'';
-  position:absolute;
-  bottom:-8px; right:25px;
-  width:0;height:0;
-  border-left:6px solid transparent;
-  border-right:6px solid transparent;
-  border-top:10px solid #1a0835;
-  z-index:1;
-}
+.vb-free-bubble.pop{animation:vbBubbleIn 0.45s cubic-bezier(.34,1.56,.64,1) 1;}
+.vb-free-bubble::after{content:"";position:absolute;bottom:-14px;right:calc(clamp(60px,8vw,88px)/2 - 4px);border-left:10px solid transparent;border-right:10px solid transparent;border-top:14px solid #0f172a;}
+.vb-free-bubble::before{content:"";position:absolute;bottom:-9px;right:calc(clamp(60px,8vw,88px)/2 - 2px);border-left:8px solid transparent;border-right:8px solid transparent;border-top:11px solid var(--bc);z-index:1;}
 
 /* balões do modal */
 .modal-balloons{display:flex;justify-content:center;gap:5px;flex-wrap:wrap;margin:2px 0 8px;}
@@ -254,6 +227,46 @@ canvas{display:block;width:100%;height:100%;touch-action:none;}
 #main-ovl{background:rgba(4,6,20,0.42);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);}
 .ovl-bg{display:none;}
 .ovl>.card,.ovl>.learn-card{margin:auto;}
+/* ===== Estética "Hora do Código" nos modais: creme com pontinhos, contornos escuros, sombras de botão ===== */
+:root{--ink:#1e1b4b;--sun:#ffd23f;--coral:#ff6b6b;--mint:#2ee6a6;--sky:#4cc9f0;--grape:#7c3aed;--cream:#fff8e7;--soft:#4a4872;}
+.ovl-bg,#main-ovl .ovl-bg{background:rgba(30,27,75,.52);backdrop-filter:blur(3px);}
+.card,#main-ovl .card,.learn-card{background:#fff;border:3px solid var(--ink);border-radius:24px;box-shadow:0 6px 0 var(--ink);}
+#main-ovl .card{border-radius:26px;}
+.card h2{color:var(--ink);text-shadow:none;}
+.card p{color:var(--soft);}
+.modal-hero{background:var(--cream) radial-gradient(rgba(255,150,60,.30) 1.4px,transparent 1.6px) 0 0/22px 22px !important;border-bottom:3px solid var(--ink);}
+.modal-hero::before,.modal-hero::after{display:none;}
+.modal-title{color:var(--ink);text-shadow:none;}
+#main-card .modal-title[style*="ff6060"]{color:#dc2626 !important;}
+.modal-sub{color:var(--grape);opacity:1;}
+.modal-rules{background:#fff;}
+.modal-rule{color:#2d2a5e;}
+.modal-rule b,#main-card b[style*="color"]{color:var(--ink) !important;background:var(--sun);padding:0 5px;border-radius:6px;}
+.modal-bottom{background:var(--cream) !important;border-top:3px solid var(--ink);}
+#main-card [style*="color:rgba(255,255,255"]{color:var(--soft) !important;}
+#main-card [style*="color:#fff;font-size:15px"]{color:var(--ink) !important;text-shadow:none !important;}
+#main-card [style*="color:#FFD600;text-shadow"]{color:#e8590c !important;text-shadow:0 3px 0 rgba(30,27,75,.25) !important;}
+#main-card [style*="color:#FFD600;font-size:14px"]{color:var(--ink) !important;text-shadow:none !important;}
+#main-card [style*="color:#FFB300"]{color:#b45309 !important;}
+#main-card [style*="rgba(0,0,0,0.3)"]{background:#fff !important;border-top:3px solid var(--ink) !important;}
+#playerNameInput{background:#fff !important;color:var(--ink) !important;border:2.5px solid var(--ink) !important;box-shadow:0 3px 0 var(--ink);}
+#playerNameInput::placeholder{color:#8a89ad;}
+.credit{color:var(--soft);}
+.btn2{background:#fff;border:2.5px solid var(--ink);color:var(--ink);box-shadow:0 3px 0 var(--ink);transition:transform .08s,box-shadow .08s;}
+.btn2[style*="color"]{background:var(--sun) !important;color:var(--ink) !important;border-color:var(--ink) !important;}
+.btn2:active{transform:translateY(3px);box-shadow:none;}
+.btn-play,.btn,.btn-learn-next{background:#ff7a1a !important;color:#fff;border:3px solid var(--ink) !important;box-shadow:0 5px 0 var(--ink) !important;text-shadow:0 2px 0 rgba(30,27,75,.35);transition:transform .08s,box-shadow .08s;}
+.btn-play:active,.btn:active,.btn-learn-next:active{transform:translateY(4px) !important;box-shadow:0 1px 0 var(--ink) !important;}
+#continueBtn{background:var(--mint) !important;color:var(--ink) !important;text-shadow:none;}
+.btn-learn{background:var(--sky);color:var(--ink);border:3px solid var(--ink);box-shadow:0 4px 0 var(--ink);}
+.btn-learn:active{transform:translateY(3px);box-shadow:none;}
+.btn-learn-nav{background:#fff;color:var(--ink);border:2.5px solid var(--ink);box-shadow:0 3px 0 var(--ink);}
+.btn-learn-nav:active{transform:translateY(3px);box-shadow:none;}
+.learn-color-circle{border:3px solid var(--ink);box-shadow:0 4px 0 var(--ink);}
+.learn-name{color:var(--ink);text-shadow:none;}
+.learn-fact{color:var(--soft);}
+.learn-dot{background:rgba(30,27,75,.2);}
+.learn-dot.active{background:var(--ink);}
 </style>
 </head>
 <body>
@@ -305,6 +318,7 @@ canvas{display:block;width:100%;height:100%;touch-action:none;}
     <div class="vb-free" id="vbFree" style="display:none">
       <div class="vb-free-bubble pop" id="vbFreeMsg">Olá! Sou o VanBerto's!</div>
       <canvas id="vbFreeCv" width="288" height="288" role="img" aria-label="VanBerto's"></canvas>
+      <div class="vb-free-name">VanBerto's</div>
     </div>
 
 

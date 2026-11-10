@@ -1,6 +1,6 @@
 // Jogo dos Veículos — funciona offline depois da primeira visita
 // Sobe o número da versão sempre que mudares algum ficheiro do jogo.
-const CACHE='jogo-veiculos-v8';
+const CACHE='jogo-veiculos-v9';
 const CORE=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png','./icon-maskable-192.png','./icon-maskable-512.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting()));});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));});
